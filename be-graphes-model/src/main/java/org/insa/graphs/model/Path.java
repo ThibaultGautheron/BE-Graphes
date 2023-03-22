@@ -210,10 +210,9 @@ public class Path {
      * 
      * @return Total length of the path (in meters).
      * 
-     * @deprecated Need to be implemented.
      */
     public float getLength() {
-        float res;
+        float res=0;
         for (Arc a : arcs){
             res+=a.getLength();
         }
@@ -228,11 +227,11 @@ public class Path {
      * @return Time (in seconds) required to travel this path at the given speed (in
      *         kilometers-per-hour).
      * 
-     * @deprecated Need to be implemented.
      */
     public double getTravelTime(double speed) {
-        
-        return (getLength()*speed);
+        double res = 0;
+        res = getLength() / (speed/3.6);
+        return (res);
     }
 
     /**
