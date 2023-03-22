@@ -231,8 +231,8 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public double getTravelTime(double speed) {
-        // TODO:
-        return 0;
+        
+        return (getLength()*speed);
     }
 
     /**
