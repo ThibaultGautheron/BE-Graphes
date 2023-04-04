@@ -8,12 +8,14 @@ public class Label implements Comparable<Label>{
     private boolean marque;
     private double cout_realise;
     private Arc pere;
+    private boolean vu;
 
     public Label(Node sommet, boolean marque, double cout, Arc pere){
         this.sommet_courant = sommet;
         this.marque = marque;
         this.cout_realise = cout;
         this.pere = pere;
+        this.vu = false;
     }
 
     public Node getSommetCourant(){
@@ -36,6 +38,10 @@ public class Label implements Comparable<Label>{
         return this.getCoutRealise();
     }
 
+    public boolean getVu(){
+        return this.vu;
+    }
+
     public void setMarque(boolean a){
         this.marque = a;
     }
@@ -46,6 +52,10 @@ public class Label implements Comparable<Label>{
 
     public void setPere(Arc pere){
         this.pere = pere;
+    }
+
+    public void setVu(Boolean vu){
+        this.vu = vu;
     }
 
     public int compareTo(Label a){
