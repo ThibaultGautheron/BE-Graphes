@@ -39,19 +39,26 @@ public class Path {
         Path out;
         if (!(nodes.isEmpty())){
             for (int i = 0 ; i<nodes.size()-1;i++){
-
+    
                 for (Arc a : nodes.get(i).getSuccessors()){
                     if (a.getDestination().equals(nodes.get(i+1))){
-
+    
                         if (a.getMinimumTravelTime() <= min){
                             tmp = a;
                             min = a.getMinimumTravelTime();
-                        }  
-                    } 
+                        }
+                    }
                 }
-                
-                arcs.add(tmp);
-                
+                    
+                if (tmp==null){
+                    throw new IllegalArgumentException("La liste n'est pas valide !\n");
+                }
+                else{
+                    arcs.add(tmp);
+                }
+                min=Integer.MAX_VALUE;
+                tmp=null;
+                    
             }
             if(nodes.size()>1){
                 out = new Path(graph, arcs);
@@ -77,7 +84,6 @@ public class Path {
      * @throws IllegalArgumentException If the list of nodes is not valid, i.e. two
      *         consecutive nodes in the list are not connected in the graph.
      * 
-     * @deprecated Need to be implemented.
      */
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
@@ -87,30 +93,36 @@ public class Path {
         Path out;
         if (!(nodes.isEmpty())){
             for (int i = 0 ; i<nodes.size()-1;i++){
-
+    
                 for (Arc a : nodes.get(i).getSuccessors()){
                     if (a.getDestination().equals(nodes.get(i+1))){
-
+    
                         if (a.getLength() <= min){
                             tmp = a;
                             min = a.getLength();
                         }  
-                    } 
+                    }
                 }
-                
-                arcs.add(tmp);
-                
-            }
-            if(nodes.size()>1){
-                out = new Path(graph, arcs);
+                if (tmp==null){
+                    throw new IllegalArgumentException("La liste n'est pas valide !\n");
+                }
+                else{
+                    arcs.add(tmp);
+                }
+                min=Integer.MAX_VALUE;
+                tmp=null;
+                }
+                if(nodes.size()>1){
+                    out = new Path(graph, arcs);
+                }else{
+                    out = new Path(graph,nodes.get(0));
+                }
             }else{
-                out = new Path(graph,nodes.get(0));
+                out = new Path(graph);
             }
-        }else{
-            out = new Path(graph);
+            return out;
         }
-        return out;
-    }
+
 
     /**
      * Concatenate the given paths.
@@ -250,7 +262,6 @@ public class Path {
      * 
      * @return true if the path is valid, false otherwise.
      * 
-     * @deprecated Need to be implemented.
      */
     public boolean isValid() {
         boolean bool = false;

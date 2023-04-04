@@ -166,8 +166,7 @@ public class PathTest {
         Arc[] expected;
 
         // Simple construction
-        path = Path.createFastestPathFromNodes(graph,
-                Arrays.asList(new Node[] { nodes[0], nodes[1], nodes[2] }));
+        path = Path.createFastestPathFromNodes(graph,Arrays.asList(new Node[] { nodes[0], nodes[1], nodes[2] }));
         expected = new Arc[] { a2b, b2c };
         assertEquals(expected.length, path.getArcs().size());
         for (int i = 0; i < expected.length; ++i) {
@@ -175,8 +174,7 @@ public class PathTest {
         }
 
         // Not so simple construction
-        path = Path.createFastestPathFromNodes(graph,
-                Arrays.asList(new Node[] { nodes[0], nodes[1], nodes[2], nodes[3] }));
+        path = Path.createFastestPathFromNodes(graph,Arrays.asList(new Node[] { nodes[0], nodes[1], nodes[2], nodes[3] }));
         expected = new Arc[] { a2b, b2c, c2d_3 };
         assertEquals(expected.length, path.getArcs().size());
         for (int i = 0; i < expected.length; ++i) {
