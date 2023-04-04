@@ -36,4 +36,16 @@ public class Label {
         return this.getCoutRealise();
     }
 
+    public void setMarque(boolean a){
+        this.marque = a;
+    }
+
+    public void setCoutRealise(double b){
+        this.cout_realise = b;
+    }
+
+    public void setPere(Arc pere){
+        this.pere = pere;
+    }
+
 }
