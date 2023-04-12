@@ -56,17 +56,19 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         while (x.getSommetCourant()!=data.getDestination()){
             x = tas.deleteMin();
             x.setMarque(true);
+            System.out.println(x.getSommetCourant().getId() + " " + x.getCoutRealise());
             for (Arc arc: x.getSommetCourant().getSuccessors()){
                 if(!getLabelNode(arc.getDestination()).getMarque()){
                     double w = data.getCost(arc);
                     if (getLabelNode(arc.getDestination()).getCoutRealise()>x.getCoutRealise()+w){
-                        getLabelNode(arc.getDestination()).setCoutRealise(x.getCoutRealise()+w);
                         if (getLabelNode(arc.getDestination()).getVu()){
                             tas.remove(getLabelNode(arc.getDestination()));
+                            getLabelNode(arc.getDestination()).setCoutRealise(x.getCoutRealise()+w);                    
                             tas.insert(getLabelNode(arc.getDestination()));
                             getLabelNode(arc.getDestination()).setPere(arc);
                         }
                         else{
+                            getLabelNode(arc.getDestination()).setCoutRealise(x.getCoutRealise()+w);
                             tas.insert(getLabelNode(arc.getDestination()));
                             getLabelNode(arc.getDestination()).setVu(true);
                             notifyNodeReached(getLabelNode(arc.getDestination()).getSommetCourant());
