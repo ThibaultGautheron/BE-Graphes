@@ -23,6 +23,9 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
     public DijkstraAlgorithm(ShortestPathData data) {
         super(data);
+        for (Node node: data.getGraph().getNodes()){
+            labels.add(new Label(node, false, Double.POSITIVE_INFINITY, null));
+        }
     }
 
     @Override
@@ -37,22 +40,21 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         BinaryHeap<Label> tas = new BinaryHeap<Label>();
 
-        for (Node node: graph.getNodes()){
-            getLabelNode(node).setMarque(false);
-            getLabelNode(node).setCoutRealise(Double.POSITIVE_INFINITY);
-            getLabelNode(node).setPere(null);
-        }
+        //for (Node node: graph.getNodes()){
+        //    getLabelNode(node).setMarque(false);
+        //    getLabelNode(node).setCoutRealise(Double.POSITIVE_INFINITY);
+        //    getLabelNode(node).setPere(null);
+        //}
 
         int OriginId = data.getOrigin().getId();
 
         getLabelNode(graph.getNodes().get(OriginId)).setCoutRealise(0);
 
         tas.insert(getLabelNode(graph.getNodes().get(OriginId)));
-
-        boolean found = false;
-
-        while (!found){
-            Label x = tas.deleteMin();
+        Label x;
+        x=getLabelNode(data.getOrigin());
+        while (x.getSommetCourant()!=data.getDestination()){
+            x = tas.deleteMin();
             x.setMarque(true);
             for (Arc arc: x.getSommetCourant().getSuccessors()){
                 if(!getLabelNode(arc.getDestination()).getMarque()){
@@ -62,11 +64,15 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                         if (getLabelNode(arc.getDestination()).getVu()){
                             tas.remove(getLabelNode(arc.getDestination()));
                             tas.insert(getLabelNode(arc.getDestination()));
+                            getLabelNode(arc.getDestination()).setPere(arc);
                         }
                         else{
                             tas.insert(getLabelNode(arc.getDestination()));
                             getLabelNode(arc.getDestination()).setVu(true);
+                            notifyNodeReached(getLabelNode(arc.getDestination()).getSommetCourant());
+                            getLabelNode(arc.getDestination()).setPere(arc);
                         }
+                        predecessorArcs[arc.getDestination().getId()]=arc;
                     }
                 }
             }
