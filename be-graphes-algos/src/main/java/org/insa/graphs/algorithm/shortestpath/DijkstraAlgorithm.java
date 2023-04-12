@@ -40,12 +40,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
         BinaryHeap<Label> tas = new BinaryHeap<Label>();
 
-        //for (Node node: graph.getNodes()){
-        //    getLabelNode(node).setMarque(false);
-        //    getLabelNode(node).setCoutRealise(Double.POSITIVE_INFINITY);
-        //    getLabelNode(node).setPere(null);
-        //}
-
         int OriginId = data.getOrigin().getId();
 
         getLabelNode(graph.getNodes().get(OriginId)).setCoutRealise(0);
@@ -56,7 +50,6 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         while (x.getSommetCourant()!=data.getDestination()){
             x = tas.deleteMin();
             x.setMarque(true);
-            System.out.println(x.getSommetCourant().getId() + " " + x.getCoutRealise());
             for (Arc arc: x.getSommetCourant().getSuccessors()){
                 if(!getLabelNode(arc.getDestination()).getMarque()){
                     double w = data.getCost(arc);
