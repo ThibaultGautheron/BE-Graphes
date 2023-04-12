@@ -41,13 +41,13 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
 
         int OriginId = data.getOrigin().getId();
 
-        getLabelStarNode(graph.getNodes().get(OriginId)).setTotalCost(0);
+        getLabelStarNode(graph.getNodes().get(OriginId)).setCoutDestination(0);
 
         tas.insert(getLabelStarNode(graph.getNodes().get(OriginId)));
         LabelStar x;
         x=getLabelStarNode(data.getOrigin());
         while (x.getSommetCourant()!=data.getDestination()){
-            x = tas.deleteMin();
+            x = getLabelStarNode(tas.deleteMin().getSommetCourant());
             x.setMarque(true);
             for (Arc arc: x.getSommetCourant().getSuccessors()){
                 if(!getLabelStarNode(arc.getDestination()).getMarque()){
@@ -55,12 +55,12 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
                     if (getLabelStarNode(arc.getDestination()).getTotalCost()>x.getTotalCost()+w){
                         if (getLabelStarNode(arc.getDestination()).getVu()){
                             tas.remove(getLabelStarNode(arc.getDestination()));
-                            getLabelStarNode(arc.getDestination()).setTotalCost(x.getTotalCost()+w);                    
+                            getLabelStarNode(arc.getDestination()).setCoutDestination(x.getTotalCost()+w);                    
                             tas.insert(getLabelStarNode(arc.getDestination()));
                             getLabelStarNode(arc.getDestination()).setPere(arc);
                         }
                         else{
-                            getLabelStarNode(arc.getDestination()).setTotalCost(x.getCoutRealise()+w);
+                            getLabelStarNode(arc.getDestination()).setCoutDestination(x.getCoutRealise()+w);
                             tas.insert(getLabelStarNode(arc.getDestination()));
                             getLabelStarNode(arc.getDestination()).setVu(true);
                             notifyNodeReached(getLabelStarNode(arc.getDestination()).getSommetCourant());
