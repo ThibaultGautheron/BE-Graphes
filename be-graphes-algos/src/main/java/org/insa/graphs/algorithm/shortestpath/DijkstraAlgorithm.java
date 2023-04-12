@@ -16,7 +16,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
 
     protected final ArrayList<Label> labels = new ArrayList<Label>();
 
-    private Label getLabelNode(Node e){
+    protected Label getLabelNode(Node e){
         int Id=e.getId();
         return labels.get(Id);
     }
