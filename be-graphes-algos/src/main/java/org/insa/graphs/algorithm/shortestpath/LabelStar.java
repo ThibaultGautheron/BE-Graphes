@@ -2,10 +2,10 @@ package org.insa.graphs.algorithm.shortestpath;
 import org.insa.graphs.model.Arc;
 import org.insa.graphs.model.Node;
 
-public class LabelStar extends Label implements Comparable<Label>{
+public class LabelStar extends Label{
     private double cout_destination;
 
-    public LabelStar(Node sommet, boolean marque, double cout, Arc pere, Node dest){
+    public LabelStar(Node sommet, boolean marque, double cout, Arc pere){
         super(sommet,marque,cout,pere);
     }
 

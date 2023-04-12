@@ -22,7 +22,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
     public AStarAlgorithm(ShortestPathData data) {
         super(data);
         for (Node node: data.getGraph().getNodes()){
-            labels.add(new Label(node, false, Double.POSITIVE_INFINITY, null));
+            labels.add(new LabelStar(node, false, Double.POSITIVE_INFINITY, null));
         }
     }
 
@@ -37,7 +37,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         notifyOriginProcessed(data.getOrigin());
         Arc[] predecessorArcs = new Arc[nbNodes];
 
-        BinaryHeap<LabelStar> tas = new BinaryHeap<LabelStar>();
+        BinaryHeap<Label> tas = new BinaryHeap<Label>();
 
         int OriginId = data.getOrigin().getId();
 
