@@ -25,7 +25,6 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
             LabelStar labelstar=new LabelStar(node, false, Double.POSITIVE_INFINITY, null);
             labelstar.setCoutDestination(labelstar.getSommetCourant().getPoint().distanceTo(data.getDestination().getPoint()));
             labels.add(labelstar);
-
         }
     }
 
@@ -55,7 +54,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
             for (Arc arc: x.getSommetCourant().getSuccessors()){
                 if(!getLabelStarNode(arc.getDestination()).getMarque()){
                     double w = data.getCost(arc);
-                    if (getLabelStarNode(arc.getDestination()).getTotalCost()>x.getTotalCost()+w){
+                    if (getLabelStarNode(arc.getDestination()).getCoutRealise()>x.getCoutRealise()+w){
                         if (getLabelStarNode(arc.getDestination()).getVu()){
                             tas.remove(getLabelStarNode(arc.getDestination()));
                             getLabelStarNode(arc.getDestination()).setCoutRealise(x.getCoutRealise()+w);                    
