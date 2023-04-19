@@ -22,7 +22,10 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
     public AStarAlgorithm(ShortestPathData data) {
         super(data);
         for (Node node: data.getGraph().getNodes()){
-            labels.add(new LabelStar(node, false, Double.POSITIVE_INFINITY, null));
+            LabelStar labelstar=new LabelStar(node, false, Double.POSITIVE_INFINITY, null);
+            labelstar.setCoutDestination(labelstar.getSommetCourant().getPoint().distanceTo(data.getDestination().getPoint()));
+            labels.add(labelstar);
+
         }
     }
 
@@ -41,9 +44,9 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
 
         int OriginId = data.getOrigin().getId();
 
-        getLabelNode(graph.getNodes().get(OriginId)).setCoutRealise(0);
+        getLabelStarNode(graph.getNodes().get(OriginId)).setCoutRealise(0);
 
-        tas.insert(getLabelNode(graph.getNodes().get(OriginId)));
+        tas.insert(getLabelStarNode(graph.getNodes().get(OriginId)));
         LabelStar x;
         x=getLabelStarNode(data.getOrigin());
         while (x.getSommetCourant()!=data.getDestination()){
@@ -54,14 +57,14 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
                     double w = data.getCost(arc);
                     if (getLabelStarNode(arc.getDestination()).getTotalCost()>x.getTotalCost()+w){
                         if (getLabelStarNode(arc.getDestination()).getVu()){
-                            tas.remove(getLabelNode(arc.getDestination()));
-                            getLabelStarNode(arc.getDestination()).setCoutDestination(x.getTotalCost()+w);                    
-                            tas.insert(getLabelNode(arc.getDestination()));
+                            tas.remove(getLabelStarNode(arc.getDestination()));
+                            getLabelStarNode(arc.getDestination()).setCoutRealise(x.getCoutRealise()+w);                    
+                            tas.insert(getLabelStarNode(arc.getDestination()));
                             getLabelStarNode(arc.getDestination()).setPere(arc);
                         }
                         else{
-                            getLabelStarNode(arc.getDestination()).setCoutDestination(x.getCoutRealise()+w);
-                            tas.insert(getLabelNode(arc.getDestination()));
+                            getLabelStarNode(arc.getDestination()).setCoutRealise(x.getCoutRealise()+w);
+                            tas.insert(getLabelStarNode(arc.getDestination()));
                             getLabelStarNode(arc.getDestination()).setVu(true);
                             notifyNodeReached(getLabelStarNode(arc.getDestination()).getSommetCourant());
                             getLabelStarNode(arc.getDestination()).setPere(arc);
