@@ -52,23 +52,25 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
             x = getLabelStarNode(tas.deleteMin().getSommetCourant());
             x.setMarque(true);
             for (Arc arc: x.getSommetCourant().getSuccessors()){
-                if(!getLabelStarNode(arc.getDestination()).getMarque()){
-                    double w = data.getCost(arc);
-                    if (getLabelStarNode(arc.getDestination()).getCoutRealise()>x.getCoutRealise()+w){
-                        if (getLabelStarNode(arc.getDestination()).getVu()){
-                            tas.remove(getLabelStarNode(arc.getDestination()));
-                            getLabelStarNode(arc.getDestination()).setCoutRealise(x.getCoutRealise()+w);                    
-                            tas.insert(getLabelStarNode(arc.getDestination()));
-                            getLabelStarNode(arc.getDestination()).setPere(arc);
+                if (data.isAllowed(arc)){
+                    if(!getLabelStarNode(arc.getDestination()).getMarque()){
+                        double w = data.getCost(arc);
+                        if (getLabelStarNode(arc.getDestination()).getCoutRealise()>x.getCoutRealise()+w){
+                            if (getLabelStarNode(arc.getDestination()).getVu()){
+                                tas.remove(getLabelStarNode(arc.getDestination()));
+                                getLabelStarNode(arc.getDestination()).setCoutRealise(x.getCoutRealise()+w);                    
+                                tas.insert(getLabelStarNode(arc.getDestination()));
+                                getLabelStarNode(arc.getDestination()).setPere(arc);
+                            }
+                            else{
+                                getLabelStarNode(arc.getDestination()).setCoutRealise(x.getCoutRealise()+w);
+                                tas.insert(getLabelStarNode(arc.getDestination()));
+                                getLabelStarNode(arc.getDestination()).setVu(true);
+                                notifyNodeReached(getLabelStarNode(arc.getDestination()).getSommetCourant());
+                                getLabelStarNode(arc.getDestination()).setPere(arc);
+                            }
+                            predecessorArcs[arc.getDestination().getId()]=arc;
                         }
-                        else{
-                            getLabelStarNode(arc.getDestination()).setCoutRealise(x.getCoutRealise()+w);
-                            tas.insert(getLabelStarNode(arc.getDestination()));
-                            getLabelStarNode(arc.getDestination()).setVu(true);
-                            notifyNodeReached(getLabelStarNode(arc.getDestination()).getSommetCourant());
-                            getLabelStarNode(arc.getDestination()).setPere(arc);
-                        }
-                        predecessorArcs[arc.getDestination().getId()]=arc;
                     }
                 }
             }
