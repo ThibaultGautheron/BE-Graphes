@@ -10,7 +10,7 @@ public class LabelStar extends Label{
     }
 
     public double getTotalCost(){
-        return this.getCoutRealise() + this.cout_destination;
+        return (this.getCoutRealise() + this.cout_destination);
     }
 
     public void setCoutDestination(double d){

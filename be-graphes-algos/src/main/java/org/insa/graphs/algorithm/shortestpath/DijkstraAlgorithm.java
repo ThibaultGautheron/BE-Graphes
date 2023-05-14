@@ -48,7 +48,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         tas.insert(getLabelNode(graph.getNodes().get(OriginId)));
         Label x;
         x=getLabelNode(data.getOrigin());
-        while (x.getSommetCourant()!=data.getDestination()){
+        while (x.getSommetCourant()!=data.getDestination() && !tas.isEmpty()){
             x = tas.deleteMin();
             x.setMarque(true);
             for (Arc arc: x.getSommetCourant().getSuccessors()){

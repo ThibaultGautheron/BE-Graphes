@@ -48,7 +48,7 @@ public class AStarAlgorithm extends DijkstraAlgorithm {
         tas.insert(getLabelStarNode(graph.getNodes().get(OriginId)));
         LabelStar x;
         x=getLabelStarNode(data.getOrigin());
-        while (x.getSommetCourant()!=data.getDestination()){
+        while (x.getSommetCourant()!=data.getDestination()&& !tas.isEmpty()){
             x = getLabelStarNode(tas.deleteMin().getSommetCourant());
             x.setMarque(true);
             for (Arc arc: x.getSommetCourant().getSuccessors()){
