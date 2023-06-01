@@ -25,7 +25,7 @@ public class DijkstraAlgorithmTest {
 	
 	protected static Path oneNodePath;
 	
-	protected static ShortestPathSolution oneNodeSolution, simplePathSolution, mediumPathSolution, BFmediumSolution, InfeasiblePathSolution, BigPathSolution;
+	protected static ShortestPathSolution oneNodeSolution, shortPathSolution, mediumPathSolution,BFshortSolution, BFmediumSolution, InfeasiblePathSolution;
 	
 	protected static double cost;
 	
@@ -41,32 +41,32 @@ public class DijkstraAlgorithmTest {
 		reader = new BinaryGraphReader(new DataInputStream(new BufferedInputStream(new FileInputStream(mapName))));
 		graph_insa = reader.read();
 	
+		//Initialisation oneNodePath
+		Node node = graph.getNodes().get(0);
+		oneNodePath = new Path(graph, node);
 		
-		//Init simple path
-		cost = 0;
-		for (int i = 5; i < 9; i++) {
-			for (Arc a : graph.getNodes().get(i).getSuccessors()) {
-				if (a.getDestination() == graph.getNodes().get(i+1)) {
-					cost += a.getLength();
-					break;
-				}
-			}
-		}
+		ShortestPathData data = new ShortestPathData(graph, node, node, ArcInspectorFactory.getAllFilters().get(0));
+		DijkstraAlgorithm Dijkstra = new AStarAlgorithm(data);
+		oneNodeSolution = Dijkstra.doRun();
+
+		//Initialisation shortPath
 		
-		ShortestPathData data = new ShortestPathData(graph, graph.getNodes().get(5), graph.getNodes().get(9), ArcInspectorFactory.getAllFilters().get(0));
-		DijkstraAlgorithm Dijkstra = new DijkstraAlgorithm(data);
-		simplePathSolution = Dijkstra.doRun();
+		data = new ShortestPathData(graph, graph.getNodes().get(16), graph.getNodes().get(23), ArcInspectorFactory.getAllFilters().get(0));
+		Dijkstra = new DijkstraAlgorithm(data);
+		shortPathSolution = Dijkstra.doRun();
+		BellmanFordAlgorithm BF = new BellmanFordAlgorithm(data);
+		BFshortSolution = BF.doRun();
 		
-		//Init medium path
-		data = new ShortestPathData(graph_insa, graph_insa.getNodes().get(805), graph_insa.getNodes().get(70), ArcInspectorFactory.getAllFilters().get(0));
+		//Initialisation mediumPath
+		data = new ShortestPathData(graph_insa, graph_insa.getNodes().get(215), graph_insa.getNodes().get(915), ArcInspectorFactory.getAllFilters().get(0));
 		Dijkstra = new DijkstraAlgorithm(data);
 		mediumPathSolution = Dijkstra.doRun();
 		
-		BellmanFordAlgorithm BF = new BellmanFordAlgorithm(data);
+		BF = new BellmanFordAlgorithm(data);
 		BFmediumSolution = BF.doRun();
 		
-		//Init Infeasible path
-		data = new ShortestPathData(graph_insa, graph_insa.getNodes().get(75), graph_insa.getNodes().get(1255), ArcInspectorFactory.getAllFilters().get(0));
+		//Initialisation InfeasiblePath
+		data = new ShortestPathData(graph_insa, graph_insa.getNodes().get(215), graph_insa.getNodes().get(1172), ArcInspectorFactory.getAllFilters().get(0));
 		Dijkstra = new DijkstraAlgorithm(data);
 		InfeasiblePathSolution = Dijkstra.doRun();
 		
@@ -75,9 +75,15 @@ public class DijkstraAlgorithmTest {
 	}
 
 	@Test
-	public void TestSimplePath() {
-		assertTrue(Math.abs(cost - simplePathSolution.getPath().getLength()) < 0.01);
-		assertTrue(simplePathSolution.getPath().isValid());
+	public void TestOneNodePath() {
+		assertTrue(Math.abs(oneNodePath.getLength() - oneNodeSolution.getPath().getLength() )< 0.01);
+		assertTrue(oneNodeSolution.getPath().isValid());
+	}
+
+	@Test
+	public void TestShortPath() {
+		assertTrue(Math.abs(BFshortSolution.getPath().getLength() - shortPathSolution.getPath().getLength()) < 0.01);
+		assertTrue(shortPathSolution.getPath().isValid());
 	}
 	
 	@Test
